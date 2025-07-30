@@ -6,6 +6,7 @@
  * `Maven version: 3.9.9`
  * `Tomcat 11.0.0`
  * `Jfrog 7.17.7`
+ * `Git 2.43`
 
 ## Installation on Redhat Latest version:
   
