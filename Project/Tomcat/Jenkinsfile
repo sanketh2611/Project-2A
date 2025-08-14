@@ -43,7 +43,6 @@ pipeline{
              steps {
                   sh '''
                      mvn install
-		     rm -rf target/webapp.war
                      mv target/*.war target/webapp.war
                   '''
              }
@@ -77,17 +76,17 @@ pipeline{
         stage ('Tomcat Deployment') {
            steps {
              script {
-                 deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://43.205.235.228:8080')], contextPath: '/webapp-app', onFailure: false, war: 'target/webapp.war' 
+                 deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://3.108.40.179:8080')], contextPath: '/ecommerce', onFailure: false, war: 'target/webapp.war' 
                     }
                   }
            }
          stage('post-build step') {
             steps {
-		sh '''
+	    	sh '''
                 echo "Successfull Pipeline for Tomcat Deployment"
-		'''
-	    }
-	}
+	     	'''
+	      }
+     	}
     
      }
 }
