@@ -53,4 +53,7 @@ jobs:
           curl --user "${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}" \
                --upload-file target/*.war \
                "http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/mywebapp&update=true"
+        env:
+          TOMCAT_MANAGER_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
+          TOMCAT_MANAGER_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
     
