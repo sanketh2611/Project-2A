@@ -50,7 +50,7 @@ jobs:
 
       - name: Deploy artifact to Artifactory
         run: |
-          jfrog rt upload "target/*.war" "${{ secrets.JFROG_CLI_URL }}/artifactory/local-snapshot-repo/"
+          jfrog rt upload "target/*.war" "http://${{ secrets.JFROG_HOST }}:8082/artifactory/local-snapshot-repo/"
 
       - name: Deploy WAR to Tomcat
         run: |
