@@ -54,7 +54,7 @@ jobs:
 
       - name: Deploy artifact to Artifactory
         run: |
-          jfrog rt upload "target/*.war" "local-snapshot-repo/" --server-id=jfrog-server
+          jfrog rt upload "target/*.war" "local-snapshot-repo/com/example/simple-maven-project/1.0-SNAPSHOT/" --server-id=jfrog-server
 
       - name: Deploy WAR to Tomcat
         run: |
