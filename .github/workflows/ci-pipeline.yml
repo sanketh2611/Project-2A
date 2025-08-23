@@ -22,20 +22,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Cache SonarQube packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-          
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
       - name: SonarQube analysis
         uses: sonarsource/sonarqube-scan-action@master
         env:
@@ -54,7 +40,7 @@ jobs:
 
       - name: Deploy artifact to Artifactory
         run: |
-          jfrog rt upload "target/simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/com/example/simple-maven-project/1.0-SNAPSHOT/" --server-id=jfrog-server
+          jfrog rt upload "target/simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/com/example/simple-maven-project/1.0-SNAPSHOT/simple-maven-project-1.0-SNAPSHOT.war" --server-id=jfrog-server
 
       - name: Deploy WAR to Tomcat
         run: |
