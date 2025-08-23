@@ -48,13 +48,13 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add jfrog-server \
-            --url="http://13.126.4.238:8082/artifactory/" \
+            --url="http://13.126.4.238:8081/artifactory/" \
             --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
             --interactive=false
 
       - name: Deploy artifact to Artifactory
         run: |
-          jfrog rt upload "target/*.war" "local-snapshot-repo/com/example/simple-maven-project/1.0-SNAPSHOT/" --server-id=jfrog-server
+          jfrog rt upload "target/*.war" "local-snapshot-repo/com/example/simple-maven-project/" --server-id=jfrog-server
 
       - name: Deploy WAR to Tomcat
         run: |
