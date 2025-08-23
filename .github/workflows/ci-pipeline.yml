@@ -42,15 +42,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-      - name: Deploy to JFrog Artifactory
+      - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v1
-        env:
-          JFROG_CLI_TOKEN: ${{ secrets.JFROG_CLI_TOKEN }}
-          JFROG_CLI_URL: ${{ secrets.JFROG_CLI_URL }}
+
+      - name: Configure JFrog CLI
+        run: |
+          jfrog config add jfrog-server \
+            --url="${{ secrets.JFROG_CLI_URL }}" \
+            --access-token="${{ secrets.JFROG_CLI_TOKEN }}" \
+            --interactive=false
 
       - name: Deploy artifact to Artifactory
         run: |
-          jfrog rt upload "target/*.war" "http://${{ secrets.JFROG_HOST }}:8082/artifactory/local-snapshot-repo/"
+          jfrog rt upload "target/*.war" "http://${{ secrets.JFROG_HOST }}:8082/artifactory/local-snapshot-repo/" --server-id=jfrog-server
 
       - name: Deploy WAR to Tomcat
         run: |
