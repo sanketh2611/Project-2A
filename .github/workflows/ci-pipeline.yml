@@ -48,12 +48,12 @@ jobs:
           JFROG_CLI_TOKEN: ${{ secrets.JFROG_CLI_TOKEN }}
           JFROG_CLI_URL: ${{ secrets.JFROG_CLI_URL }}
 
-      - name: Deploy to Tomcat
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.TOMCAT_HOST }}
-          username: ${{ secrets.TOMCAT_USERNAME }}
-          password: ${{ secrets.TOMCAT_PASSWORD }}
-          source: "target/*.war"
-          target: "/opt/tomcat/webapps/"
+      - name: Deploy WAR to Tomcat Manager
+        run: |
+          curl --user "${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}" \
+          --upload-file target/.war \
+          "${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/mywebapp&update=true"
+        env:
+          TOMCAT_MANAGER_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
+          TOMCAT_MANAGER_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
     
