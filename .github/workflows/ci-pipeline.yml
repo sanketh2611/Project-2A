@@ -51,9 +51,7 @@ jobs:
       - name: Deploy to Tomcat
         # Use curl to deploy the WAR file to Tomcat Manager
         run: |
-          curl -v -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} \
-          -T target/*.war \ # Adjust path to your WAR file
-          "http://${{ secrets.TOMCAT_HOST }}/manager/text/deploy?path=/webapp&update=true"
+          curl -v -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} -T target/*.war "${{ secrets.TOMCAT_HOST }}/manager/text/deploy?path=/webapp&update=true"
 
 
     
