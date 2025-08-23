@@ -49,9 +49,11 @@ jobs:
           JFROG_CLI_URL: ${{ secrets.JFROG_CLI_URL }}
 
       - name: Deploy to Tomcat
-        # Use curl to deploy the WAR file to Tomcat Manager
-        run: |
-          curl -v -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} -T Project-Management/target/*.war "${{ secrets.TOMCAT_HOST }}/manager/text/deploy?path=/webapp&update=true"
-
-
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.TOMCAT_HOST }}
+          username: ${{ secrets.TOMCAT_USERNAME }}
+          password: ${{ secrets.TOMCAT_PASSWORD }}
+          source: "target/*.war"
+          target: "/opt/tomcat/webapps/"
     
