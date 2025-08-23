@@ -48,11 +48,15 @@ jobs:
           JFROG_CLI_TOKEN: ${{ secrets.JFROG_CLI_TOKEN }}
           JFROG_CLI_URL: ${{ secrets.JFROG_CLI_URL }}
 
+      - name: Deploy artifact to Artifactory
+        run: |
+          jfrog rt upload "target/*.war" "${{ secrets.JFROG_CLI_URL }}/artifactory/local-snapshot-repo/"
+
       - name: Deploy WAR to Tomcat
         run: |
           curl --user "${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}" \
                --upload-file target/*.war \
-               "http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/mywebapp&update=true"
+               "http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/ecommerce&update=true"
         env:
           TOMCAT_MANAGER_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
           TOMCAT_MANAGER_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
