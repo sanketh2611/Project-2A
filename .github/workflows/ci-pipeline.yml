@@ -34,8 +34,8 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add jfrog-server \
-           --url="http://${{ secrets.JFROG_HOST}}:8082" \
-           --access-token="${{ secrets.JFROG_CLI_TOKEN }}" \
+           --url=http://${{ secrets.JFROG_HOST}}:8082 \
+           --access-token=${{ secrets.JFROG_CLI_TOKEN }} \
            --interactive=false
 
       - name: Deploy artifact to Artifactory
