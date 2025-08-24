@@ -34,7 +34,7 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add jfrog-server \
-           --url="http://13.235.42.211:8082/artifactory/" \
+           --url="http://13.235.42.211:8082" \
            --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
            --interactive=false
 
