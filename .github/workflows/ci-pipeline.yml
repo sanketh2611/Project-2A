@@ -2,6 +2,12 @@ name: DevOps CI/CD Pipeline
 
 on:
   workflow_dispatch:
+     inputs:
+       branch:
+         description: 'Branch to deploy from'
+         required: true
+         default: 'develop'
+         type: string
   pull_request:
     branches:
       - master
