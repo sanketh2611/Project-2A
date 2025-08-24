@@ -30,18 +30,22 @@ jobs:
 
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
+        with:
+          artifactory-url: http://13.235.42.211:8082/artifactory/
+          artifactory-username: admin
+          artifactory-password: Admin@123
 
-      - name: Configure JFrog CLI
-        run: |
-          jfrog config add jfrog-server \
-            --url="http://13.235.42.211:8082/artifactory/" \
-            --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
-            --interactive=false
+      #- name: Configure JFrog CLI
+      #  run: |
+      #    jfrog config add jfrog-server \
+      #     --url="http://13.235.42.211:8082/artifactory/" \
+      #     --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
+      #     --interactive=false
 
       - name: Deploy artifact to Artifactory
         run: |
           jfrog --version
-          jfrog rt upload "target/simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/" --server-id=jfrog-server
+          jfrog rt upload "target/simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/" --flat=false
 
      # - name: Deploy WAR to Tomcat
      #   run: |
