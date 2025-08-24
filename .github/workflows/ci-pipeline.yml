@@ -1,9 +1,9 @@
 name: Java CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - develop
+  #push:
+  #  branches:
+   #   - develop
   workflow_dispatch:
 
 jobs:
@@ -22,11 +22,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      #- name: SonarQube analysis
-      # uses: sonarsource/sonarqube-scan-action@master
-      #  env:
-      #   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: SonarQube analysis
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       - name: Set up JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
@@ -34,21 +34,21 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add jfrog-server \
-           --url="http://13.235.42.211:8082" \
-           --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
+           --url="http://${{ secrets.JFROG_HOST}}:8082" \
+           --access-token="${{ secrets.JFROG_CLI_TOKEN }}" \
            --interactive=false
 
       - name: Deploy artifact to Artifactory
         run: |
           jfrog --version
-          jfrog rt upload "simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/" --server-id=jfrog-server
+          jfrog rt upload "target/simple-maven-project-1.0-SNAPSHOT.war" "local-snapshot-repo/" --server-id=jfrog-server
 
-     # - name: Deploy WAR to Tomcat
-     #   run: |
-     #     curl --user "${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}" \
-     #          --upload-file target/*.war \
-      #         "http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/ecommerce&update=true"
-      #  env:
-      #    TOMCAT_MANAGER_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
-      #    TOMCAT_MANAGER_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+      - name: Deploy WAR to Tomcat
+        run: |
+          curl --user "${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}" \
+               --upload-file target/*.war \
+               "http://${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/ecommerce&update=true"
+        env:
+          TOMCAT_MANAGER_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
+          TOMCAT_MANAGER_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
     
