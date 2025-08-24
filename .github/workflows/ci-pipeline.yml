@@ -29,12 +29,12 @@ jobs:
       #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       - name: Set up JFrog CLI
-        uses: jfrog/setup-jfrog-cli@v3
+        uses: jfrog/setup-jfrog-cli@v4
 
       - name: Configure JFrog CLI
         run: |
           jfrog config add jfrog-server \
-            --url="http://13.235.42.211:8081/artifactory/" \
+            --url="http://13.235.42.211:8082/artifactory/" \
             --access-token="cmVmdGtuOjAxOjE3ODc1MDgwMzU6NGpSQU8wOFVrRklUb1BjbTZKaWxTS0lRWW9v" \
             --interactive=false
 
