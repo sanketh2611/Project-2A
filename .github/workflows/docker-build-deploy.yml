@@ -41,7 +41,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Log in to Amazon ECR
         id: login-ecr
@@ -49,10 +49,10 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_NAME=${{ env.DOCKER_IMAGE_NAME }}
+          IMAGE_NAME=${{ vars.DOCKER_IMAGE_NAME }}
           IMAGE_TAG=latest
-          ECR_REPO=${{ env.ECR_REPOSITORY }}
-          AWS_REGION=${{ env.AWS_REGION }}
+          ECR_REPO=${{ vars.ECR_REPOSITORY }}
+          AWS_REGION=${{ vars.AWS_REGION }}
           ECR_REGISTRY=$(aws sts get-caller-identity --query "Account" --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
           docker build -t $IMAGE_NAME:$IMAGE_TAG -f Project/Docker-Kubernetes/Dockerfile
 
@@ -64,13 +64,13 @@ jobs:
 
       - name: Push to Docker Hub
         run: |
-          IMAGE_NAME=${{ env.DOCKER_IMAGE_NAME }}
+          IMAGE_NAME=${{ vars.DOCKER_IMAGE_NAME }}
           IMAGE_TAG=latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$IMAGE_TAG
 
       - name: Push to Amazon ECR
         run: |
-          ECR_REPO=${{ env.ECR_REPOSITORY }}
-          AWS_REGION=${{ env.AWS_REGION }}
+          ECR_REPO=${{ vars.ECR_REPOSITORY }}
+          AWS_REGION=${{ vars.AWS_REGION }}
           ECR_REGISTRY=$(aws sts get-caller-identity --query "Account" --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push $ECR_REGISTRY/$ECR_REPO:latest
