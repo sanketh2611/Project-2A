@@ -1,6 +1,9 @@
 name: DevOps CD Pipeline  for Docker
 
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - master
@@ -71,5 +74,3 @@ jobs:
           AWS_REGION=${{ env.AWS_REGION }}
           ECR_REGISTRY=$(aws sts get-caller-identity --query "Account" --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push $ECR_REGISTRY/$ECR_REPO:latest
-
-        
