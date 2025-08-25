@@ -1,17 +1,11 @@
 name: DevOps CD Pipeline  for Docker
 
 on:
-  workflow_dispatch:
-     inputs:
-       branch:
-         description: 'Branch to deploy from'
-         required: true
-         default: 'develop'
-         type: string
   pull_request:
     branches:
       - master
-
+  workflow_dispatch:
+   
 jobs:
   build-docker-deploy:
     runs-on: ubuntu-latest
