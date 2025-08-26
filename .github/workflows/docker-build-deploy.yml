@@ -54,7 +54,7 @@ jobs:
           ECR_REPO=${{ vars.ECR_REPOSITORY }}
           AWS_REGION=${{ vars.AWS_REGION }}
           ECR_REGISTRY=$(aws sts get-caller-identity --query "Account" --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
-          docker build -t $IMAGE_NAME:$IMAGE_TAG -f Project/Docker-Kubernetes/Dockerfile
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -f Project/Docker-Kubernetes/Dockerfile .
 
           # Tag for Docker Hub
           docker tag $IMAGE_NAME:$IMAGE_TAG ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:$IMAGE_TAG
