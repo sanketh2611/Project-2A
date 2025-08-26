@@ -8,6 +8,12 @@ on:
     branches:
       - master
   workflow_dispatch:
+  
+env:
+  ECS_CLUSTER: devops-ecs-cluster
+  ECS_SERVICE: devops-ecs-service
+  ECS_TASK_DEFINITION: ecs-task-def.json
+  CONTAINER_NAME: ecommerce-website-application
    
 jobs:
   build-docker-deploy:
@@ -74,3 +80,19 @@ jobs:
           AWS_REGION=${{ vars.AWS_REGION }}
           ECR_REGISTRY=$(aws sts get-caller-identity --query "Account" --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push $ECR_REGISTRY/$ECR_REPO:latest
+          
+      - name: Fill in Task Definition with Image URI
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: $ECR_REGISTRY/$ECR_REPO:latest
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          cluster: ${{ env.ECS_CLUSTER }}
+          service: ${{ env.ECS_SERVICE }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          wait-for-service-stability: true
