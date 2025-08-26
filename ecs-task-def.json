@@ -5,7 +5,7 @@
   "containerDefinitions": [
     {
       "name": "myapp",
-      "image": "PLACEHOLDER",  // will be replaced by GitHub Actions
+      "image": "480278898183.dkr.ecr.ap-south-1.amazonaws.com/ecommerce-webapp:latest"
       "essential": true,
       "portMappings": [
         {
