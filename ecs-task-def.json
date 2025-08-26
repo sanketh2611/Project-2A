@@ -1,10 +1,10 @@
 {
-  "family": "myapp-task",
+  "family": "ecommerce-website-application-task",
   "networkMode": "awsvpc",
   "executionRoleArn": "arn:aws:iam::480278898183:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
-      "name": "myapp",
+      "name": "ecommerce-website-application",
       "image": "480278898183.dkr.ecr.ap-south-1.amazonaws.com/ecommerce-webapp:latest",
       "essential": true,
       "portMappings": [
