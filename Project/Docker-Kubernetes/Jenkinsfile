@@ -97,9 +97,11 @@ pipeline{
                   steps{
                       echo "Deployment in Dev Environment"
                       sh '''
-                        kubectl apply -f  Project/Docker-Kubernetes/deployment.yaml -n "$Env_Name"
+                        kubectl apply -f  Project/Docker-Kubernetes/DEV/deployment.yaml -n "$Env_Name"
                         sleep 10
-		        kubectl apply -f Project/Docker-Kubernetes/service.yaml -n "$Env_Name"
+		                kubectl apply -f Project/Docker-Kubernetes/DEV/service.yaml -n "$Env_Name"
+		                sleep 20
+		                kubectl apply -f Project/Docker-Kubernetes/DEV/ingress.yaml -n "$Env_Name"
                       '''
                    }
                 }
@@ -110,9 +112,11 @@ pipeline{
                steps {
                    echo "Deployment in SBOX Environment"
                       sh '''
-                        kubectl apply -f  Project/Docker-Kubernetes/deployment.yaml -n "$Env_Name"
+                        kubectl apply -f  Project/Docker-Kubernetes/SBOX/deployment.yaml -n "$Env_Name"
                         sleep 10
-		        kubectl apply -f Project/Docker-Kubernetes/service.yaml -n "$Env_Name"
+		                kubectl apply -f Project/Docker-Kubernetes/SBOX/service.yaml -n "$Env_Name"
+	                    sleep 20
+		                kubectl apply -f Project/Docker-Kubernetes/SBOX/ingress.yaml -n "$Env_Name"
                     '''
                   }
                 }
@@ -123,9 +127,11 @@ pipeline{
                steps {
                    echo "Deployment in Prod Environment"
                      sh '''
-                        kubectl apply -f  Project/Docker-Kubernetes/deployment.yaml -n "$Env_Name"
+                        kubectl apply -f  Project/Docker-Kubernetes/PROD/deployment.yaml -n "$Env_Name"
                         sleep 10
-		        kubectl apply -f Project/Docker-Kubernetes/service.yaml -n "$Env_Name"
+		                kubectl apply -f Project/Docker-Kubernetes/PROD/service.yaml -n "$Env_Name"
+				  	    sleep 20
+		                kubectl apply -f Project/Docker-Kubernetes/PROD/ingress.yaml -n "$Env_Name"
                       '''
                   }
                 }
