@@ -142,6 +142,7 @@ pipeline{
                 sh '''
                   sleep 10
                    kubectl get all -n "$Env_Name"
+				   kubectl get ingress -n "$Env_Name"
                  '''
              }
          }
