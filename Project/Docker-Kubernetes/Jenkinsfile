@@ -27,8 +27,7 @@ pipeline{
             steps{
                sh '''
                 mvn package
-                cp -r target/*.war target/webapp.war
-	        	cp -r ${WORKSPACE}/target/webapp.war ${WORKSPACE}/Project/Docker-Kubernetes/
+	        	cp -r ${WORKSPACE}/target/simple-maven-project-1.0-SNAPSHOT.war ${WORKSPACE}/Project/Docker-Kubernetes/webapp.war
                 '''
             }
         }
