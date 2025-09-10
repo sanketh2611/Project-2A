@@ -26,8 +26,7 @@ pipeline{
             steps{
                sh '''
                 mvn package
-                mv target/*.war target/webapp.war
-		cp -r ${WORKSPACE}/target/webapp.war /var/lib/jenkins/
+                cp -r ${WORKSPACE}/target/simple-maven-project-1.0-SNAPSHOT.war /var/lib/jenkins/webapp.war
                 '''
             }
         }
