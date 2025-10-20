@@ -60,20 +60,21 @@ pipeline{
             }
         }
 	stage('Jfrog Artifact Upload') {
-            steps {
-              rtUpload (
-                serverId: 'artifactory',
-                spec: '''{
-                      "files": [
-                        {
-                          "pattern": "*.war",
-                           "target": "local-snapshot-repo"
-                        }
-                    ]
-                }'''
-              )
-          }
-        }
+    steps {
+        rtUpload (
+            serverId: 'artifactory',
+            spec: '''{
+                "files": [
+                    {
+                        "pattern": "target/*.war",
+                        "target": "local-snapshot-repo/simple-maven-project/1.0-SNAPSHOT/",
+                        "props": "type=war;env=prod"
+                    }
+                ]
+            }'''
+        )
+    }
+      }
         stage ('Tomcat Deployment') {
            steps {
              script {
